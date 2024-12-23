@@ -9,14 +9,17 @@ package ru.company.shareit.item;
  */
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import ru.company.shareit.request.ItemRequest;
 import ru.company.shareit.user.User;
 
-@Setter
 @Getter
+@Setter
+@Builder
 public class Item {
 
     Long id;
@@ -29,6 +32,7 @@ public class Item {
     @Size(max = 200, message = "Описание должно быть короче 300 символов")
     String description;
 
+    @NotNull
     Boolean available;
 
     User owner;

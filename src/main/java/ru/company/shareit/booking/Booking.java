@@ -31,7 +31,7 @@ public class Booking {
     @Future(message = "Дата начала бронирования не может быть в прошлом")
     LocalDateTime start;
 
-    @EndDateValidation
+    @EndDateValidation //todo
     @Future(message = "Дата конца бронирования не может быть в прошлом")
     LocalDateTime end;
 
