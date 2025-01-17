@@ -1,20 +1,22 @@
 package ru.company.shareit.user;
 
+import ru.company.shareit.user.dto.UserDto;
+
 public class UserMapper {
 
     public static UserDto toUserDto(User user) {
-        return new UserDto(
-                user.id,
-                user.name,
-                user.email
-        );
+        return UserDto.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .build();
     }
 
     public static User fromUserDto(UserDto userDto) {
-        return new User(
-                userDto.id,
-                userDto.name,
-                userDto.email
-        );
+        return User.builder()
+                .id(userDto.getId())
+                .name(userDto.getName())
+                .email(userDto.getEmail())
+                .build();
     }
 }

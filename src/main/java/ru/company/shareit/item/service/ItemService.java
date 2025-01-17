@@ -1,7 +1,9 @@
-package ru.company.shareit.item;
+package ru.company.shareit.item.service;
+
+import ru.company.shareit.item.dto.ItemDto;
+import ru.company.shareit.item.dto.ItemUpdateDto;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ItemService {
 
@@ -9,7 +11,7 @@ public interface ItemService {
 
     ItemDto addItem(ItemDto itemDto, Long userId);
 
-    ItemDto updateItem(Long userId, Long id, Map<String, Object> fields);
+    ItemDto updateItem(Long userId, Long id, ItemUpdateDto itemUpdateDto);
 
     void deleteItemById(Long id);
 

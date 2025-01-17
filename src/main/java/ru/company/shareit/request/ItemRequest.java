@@ -20,14 +20,14 @@ import java.time.LocalDateTime;
 @Getter
 public class ItemRequest {
 
-    Long id;
+    private Long id;
 
     @NotBlank(message = "Запрос не может быть пустым")
     @Size(max = 200, message = "Описание должно быть короче 300 символов")
-    String description;
+    private String description;
 
-    User requester;
+    private User requester;
 
     @Future(message = "Дата и время создания запроса не может быть в прошлом")
-    LocalDateTime created;
+    private LocalDateTime created;
 }

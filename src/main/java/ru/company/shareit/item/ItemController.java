@@ -1,11 +1,14 @@
 package ru.company.shareit.item;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.company.shareit.item.dto.ItemDto;
+import ru.company.shareit.item.dto.ItemUpdateDto;
+import ru.company.shareit.item.service.ItemService;
 
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RequestMapping("/items")
@@ -20,13 +23,15 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemDto addItem(@RequestBody @Validated Item item, @RequestHeader("X-Sharer-User-Id") Long userId) {
-        return itemService.addItem(ItemMapper.toItemDto(item), userId);
+    public ItemDto addItem(@RequestBody @Valid ItemDto item, @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return itemService.addItem(item, userId);
     }
 
     @PatchMapping("/{id}")
-    public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long id, @RequestBody @Validated Map<String, Object> fields) {
-        return itemService.updateItem(userId, id, fields);
+    public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long userId,
+                              @PathVariable Long id,
+                              @RequestBody @Validated ItemUpdateDto itemUpdateDto) {
+        return itemService.updateItem(userId, id, itemUpdateDto);
     }
 
     @DeleteMapping("/{id}")
@@ -40,7 +45,7 @@ public class ItemController {
     }
 
     @GetMapping("/search")
-    public List<ItemDto> getItemsWithName(@RequestParam(value = "text", defaultValue = "LOHLOHLOH") String text) {
+    public List<ItemDto> getItemsWithName(@RequestParam(value = "text") String text) {
         return itemService.getItemsWithName(text);
     }
 }

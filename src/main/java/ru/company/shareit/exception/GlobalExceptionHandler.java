@@ -35,20 +35,25 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, Object> handleNotFoundExceptions(NotFoundException ex) {
-        Map<String, Object> errors = new HashMap<>();
-
-        errors.put("message", ex.getMessage());
-        errors.put("status", ex.getStatusCode());
-        return errors;
+        return getErrorMsg(ex);
     }
 
     @ExceptionHandler(DuplicateDataException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public Map<String, Object> handleDuplicateDataExceptions(DuplicateDataException ex) {
+        return getErrorMsg(ex);
+    }
+
+    @ExceptionHandler(UpdateException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, Object> handleDuplicateDataExceptions(UpdateException ex) {
+        return getErrorMsg(ex);
+    }
+
+    private static Map<String, Object> getErrorMsg(RuntimeException ex) {
         Map<String, Object> errors = new HashMap<>();
 
         errors.put("message", ex.getMessage());
-        errors.put("status", ex.getStatusCode());
         return errors;
     }
 }

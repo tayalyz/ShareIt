@@ -1,10 +1,11 @@
 package ru.company.shareit.user;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import ru.company.shareit.user.dto.UserDto;
+import ru.company.shareit.user.dto.UserUpdateDto;
+import ru.company.shareit.user.service.UserService;
 
 @RequestMapping("/users")
 @RestController
@@ -19,13 +20,13 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto addUser(@RequestBody @Validated User user) {
-        return userService.addUser(UserMapper.toUserDto(user));
+    public UserDto addUser(@RequestBody @Valid UserDto user) {
+        return userService.addUser(user);
     }
 
     @PatchMapping("/{id}")
-    public UserDto updateUser(@PathVariable Long id, @RequestBody @Validated Map<String, String> fields) {
-        return userService.updateUser(id, fields);
+    public UserDto updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateDto userDto) {
+        return userService.updateUser(id, userDto);
     }
 
     @DeleteMapping("/{id}")

@@ -1,7 +1,8 @@
-package ru.company.shareit.user;
+package ru.company.shareit.user.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ru.company.shareit.user.User;
 import ru.company.shareit.util.IdGenerator;
 
 import java.util.*;
@@ -20,12 +21,14 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<User> addUser(User user) {
         user.setId(IdGenerator.INSTANCE.generate(User.class));
-        return Optional.ofNullable(users.put(user.id, user));
+        users.put(user.getId(), user);
+        return Optional.of(users.get(user.getId()));
     }
 
     @Override
     public Optional<User> updateUser(User user) {
-        return Optional.ofNullable(users.put(user.id, user));
+        users.put(user.getId(), user);
+        return Optional.ofNullable(users.get(user.getId()));
     }
 
     @Override

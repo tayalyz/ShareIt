@@ -1,8 +1,8 @@
-package ru.company.shareit.user;
+package ru.company.shareit.user.repository;
 
 import org.springframework.stereotype.Repository;
+import ru.company.shareit.user.User;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 

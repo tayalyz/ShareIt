@@ -1,6 +1,7 @@
-package ru.company.shareit.item;
+package ru.company.shareit.item.repository;
 
 import org.springframework.stereotype.Repository;
+import ru.company.shareit.item.Item;
 import ru.company.shareit.util.IdGenerator;
 
 import java.util.*;
@@ -18,12 +19,14 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public Optional<Item> addItem(Item item) {
         item.setId(IdGenerator.INSTANCE.generate(Item.class));
-        return Optional.ofNullable(items.put(item.id, item));
+        items.put(item.getId(), item);
+        return Optional.ofNullable(items.get(item.getId()));
     }
 
     @Override
-    public Optional<Item> updateItem(Item user) {
-        return Optional.ofNullable(items.put(user.id, user));
+    public Optional<Item> updateItem(Item item) {
+        items.put(item.getId(), item);
+        return Optional.ofNullable(items.get(item.getId()));
     }
 
     @Override

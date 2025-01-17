@@ -26,18 +26,18 @@ import java.time.LocalDateTime;
 @Getter
 public class Booking {
 
-    Long id;
+    private Long id;
 
     @Future(message = "Дата начала бронирования не может быть в прошлом")
-    LocalDateTime start;
+    private LocalDateTime start;
 
     @EndDateValidation //todo
     @Future(message = "Дата конца бронирования не может быть в прошлом")
-    LocalDateTime end;
+    private LocalDateTime end;
 
-    Item item;
+    private Item item;
 
-    User booker;
+    private User booker;
 
-    Status status;
+    private Status status;
 }

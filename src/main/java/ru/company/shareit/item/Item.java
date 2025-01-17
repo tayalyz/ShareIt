@@ -8,9 +8,6 @@ package ru.company.shareit.item;
  * request — если вещь была создана по запросу другого пользователя, то в этом поле будет храниться ссылка на соответствующий запрос.
  */
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,20 +19,15 @@ import ru.company.shareit.user.User;
 @Builder
 public class Item {
 
-    Long id;
+    private Long id;
 
-    @NotBlank(message = "Название не может быть пустым")
-    @Size(max = 50, message = "Название должно быть короче 50 символов")
-    String name;
+    private String name;
 
-    @NotBlank
-    @Size(max = 200, message = "Описание должно быть короче 300 символов")
-    String description;
+    private String description;
 
-    @NotNull
-    Boolean available;
+    private Boolean available;
 
-    User owner;
+    private User owner;
 
-    ItemRequest request;
+    private ItemRequest request;
 }
