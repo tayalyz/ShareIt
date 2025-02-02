@@ -1,18 +1,18 @@
-package ru.company.shareit.item;
+package ru.company.shareit.item.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.company.shareit.item.dto.CommentDto;
 import ru.company.shareit.item.dto.ItemDto;
 import ru.company.shareit.item.dto.ItemUpdateDto;
 import ru.company.shareit.item.service.ItemService;
 
 import java.util.List;
 
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/items")
-@RestController
 public class ItemController {
 
     private final ItemService itemService;
@@ -30,7 +30,7 @@ public class ItemController {
     @PatchMapping("/{id}")
     public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long userId,
                               @PathVariable Long id,
-                              @RequestBody @Validated ItemUpdateDto itemUpdateDto) {
+                              @RequestBody @Valid ItemUpdateDto itemUpdateDto) {
         return itemService.updateItem(userId, id, itemUpdateDto);
     }
 
@@ -39,7 +39,7 @@ public class ItemController {
         itemService.deleteItemById(id);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<ItemDto> getAllItemsByUserId(@RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemService.getAllItemsByUserId(userId);
     }
@@ -47,5 +47,10 @@ public class ItemController {
     @GetMapping("/search")
     public List<ItemDto> getItemsWithName(@RequestParam(value = "text") String text) {
         return itemService.getItemsWithName(text);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addComment(@RequestBody CommentDto commentDto, @PathVariable Long itemId, @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return itemService.addComment(commentDto, itemId, userId);
     }
 }

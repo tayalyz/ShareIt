@@ -13,8 +13,10 @@ public class EndDateValidationImpl implements ConstraintValidator<EndDateValidat
 
     @Override
     public boolean isValid(LocalDateTime end, ConstraintValidatorContext context) {
-        if (startDate == null || end == null) return true;
+        if (startDate == null || end == null) {
+            return true;
+        }
 
-        return end.isAfter(startDate);
+        return !startDate.equals(end) && end.isAfter(startDate);
     }
 }

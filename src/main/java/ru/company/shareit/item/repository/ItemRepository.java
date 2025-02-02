@@ -1,7 +1,7 @@
 package ru.company.shareit.item.repository;
 
 import org.springframework.stereotype.Repository;
-import ru.company.shareit.item.Item;
+import ru.company.shareit.item.model.Item;
 
 import java.util.Map;
 import java.util.Optional;

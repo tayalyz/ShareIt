@@ -1,4 +1,4 @@
-package ru.company.shareit.booking;
+package ru.company.shareit.booking.model;
 
 /**
  * Описание.

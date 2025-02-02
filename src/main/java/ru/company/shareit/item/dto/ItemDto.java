@@ -9,6 +9,9 @@ import lombok.Setter;
 import ru.company.shareit.request.ItemRequest;
 import ru.company.shareit.user.User;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Getter
 @Builder
 @Setter
@@ -21,7 +24,7 @@ public class ItemDto {
     private String name;
 
     @NotBlank
-    @Size(max = 200, message = "Описание должно быть короче 300 символов")
+    @Size(max = 300, message = "Описание должно быть короче 300 символов")
     private String description;
 
     @NotNull
@@ -30,4 +33,10 @@ public class ItemDto {
     private User owner;
 
     private ItemRequest request;
+
+    private List<CommentDto> comments;
+
+    private LocalDateTime lastBooking;
+
+    private LocalDateTime nextBooking;
 }

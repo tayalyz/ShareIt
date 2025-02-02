@@ -1,5 +1,6 @@
 package ru.company.shareit.user.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -9,19 +10,21 @@ import ru.company.shareit.user.User;
 import ru.company.shareit.user.UserMapper;
 import ru.company.shareit.user.dto.UserDto;
 import ru.company.shareit.user.dto.UserUpdateDto;
-import ru.company.shareit.user.repository.UserRepository;
+import ru.company.shareit.user.repository.UserJpaRepository;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+    private final UserJpaRepository userJpaRepository;
 
-    private final UserRepository userRepository;
-
+    @Override
     public UserDto getUserById(Long id) {
-        User user = userRepository.getUserById(id).orElseThrow(() -> {
+        User user = userJpaRepository.findById(id).orElseThrow(() -> {
             log.info("пользователь с id {} не найден", id);
             return new NotFoundException("пользователь не найден");
         });
@@ -29,20 +32,20 @@ public class UserServiceImpl implements UserService {
         return UserMapper.toUserDto(user);
     }
 
+    @Override
+    @Transactional
     public UserDto addUser(UserDto userDto) {
         userExistsByEmail(userDto.getEmail());
-
-        User newUser = userRepository.addUser(UserMapper.fromUserDto(userDto)).orElseThrow(() -> {
-            log.info("пользователь с именем {} не создан", userDto.getName());
-            return new RuntimeException("пользователь не создан");
-        });
+        User newUser = userJpaRepository.save(UserMapper.fromUserDto(userDto));
 
         log.info("добавлен пользователь с id {}", newUser.getId());
         return UserMapper.toUserDto(newUser);
     }
 
+    @Override
+    @Transactional
     public UserDto updateUser(Long id, UserUpdateDto userDto) {
-        UserDto user = getUserById(id);
+        User user = UserMapper.fromUserDto(getUserById(id));
 
         Optional.ofNullable(userDto.getName())
                 .ifPresent(user::setName);
@@ -53,23 +56,22 @@ public class UserServiceImpl implements UserService {
                     user.setEmail(email);
                 });
 
-        User updatedUser = userRepository.updateUser(UserMapper.fromUserDto(user)).orElseThrow(() -> {
-            log.info("пользователь с именем {} не обновлен", userDto.getName());
-            return new RuntimeException("пользователь не обновлен");
-        });
+        User updatedUser = userJpaRepository.save(user);
 
         log.info("обновлен пользователь с id {}", id);
         return UserMapper.toUserDto(updatedUser);
     }
 
+    @Override
+    @Transactional
     public void deleteUserById(Long id) {
-        userRepository.deleteUserById(id);
+        userJpaRepository.deleteById(id);
         log.info("удален пользователь с id {}", id);
     }
 
     private void userExistsByEmail(String email) {
         Set<String> emails = new HashSet<>();
-        for (User existingUser : userRepository.getAllUsers().values()) {
+        for (User existingUser : userJpaRepository.findAll()) {
             emails.add(existingUser.getEmail());
         }
 

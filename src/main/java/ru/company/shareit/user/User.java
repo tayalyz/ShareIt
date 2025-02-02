@@ -1,5 +1,6 @@
 package ru.company.shareit.user;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 /**
@@ -13,11 +14,19 @@ import lombok.*;
 @Builder
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 }
